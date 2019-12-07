@@ -42,18 +42,18 @@ class BasketController extends Controller
     {
         $basket = session()->get('basket');
         throw_if($basket['user'] != $user, new \Exception('not found basket'));
-
+        $product = [
+            'sku' => $request->get('sku'),
+            'quantity' => (int) $request->get('quantity', 1),
+            'price' => $request->get('price')
+        ];
         if(empty($basket['products'])){
-            session()->push('basket.products', [
-                'sku' => $request->get('sku'), 'quantity' => $request->get('quantity', 1)
-            ]);
+            session()->push('basket.products', $product);
         }else{
             $products = collect($basket['products']);
             $found = $products->firstWhere('sku',$request->get('sku'));
             if(is_null($found)){
-                $products->push([
-                    'sku' => $request->get('sku'), 'quantity' => $request->get('quantity', 1)
-                ]);
+                $products->push($product);
             }else{
                 $found['quantity'] = $request->get('quantity',1);
                 $products->transform(function ($item, $key) use ($found) {
