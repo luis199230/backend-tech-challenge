@@ -20,3 +20,4 @@ use Illuminate\Http\Request;
 Route::post('/v1/basket', 'API\V1\BasketController@store');
 Route::patch('/v1/basket/{user}', 'API\V1\BasketController@update');
 Route::delete('/v1/basket/{user}', 'API\V1\BasketController@destroy');
+Route::get('/v1/basket/{user}', 'API\V1\BasketController@index');
