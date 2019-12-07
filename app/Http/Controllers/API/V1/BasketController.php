@@ -73,7 +73,7 @@ class BasketController extends Controller
         $basket = session()->get('basket');
         $total = 0;
         collect($basket['products'])->each(function ($product) use (&$total){
-            $total = (double) $product['price'] * $product['quantity'];
+            $total += (double) $product['price'] * $product['quantity'];
         });
         return $this->responseSuccess('total amount in the basket', ['total' =>$total, 'basket'=>$basket]);
     }
